@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title> The {lastname} Family </title>
+   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+</head>
+<body>
+<h2> The <em> {lastname} </em> Family</h2>
+<hr>
+<ol>
+{members}
+</ol>
+</body>
+</html>

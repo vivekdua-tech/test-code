@@ -1,0 +1,14 @@
+Command:  show version
+Task:  find mac address for mgmt0
+
+ 0: Ext: Management0/0       : address is 0050.5693.7b3f, irq 10
+ 1: Ext: GigabitEthernet0/0  : address is 0050.5693.4da6, irq 5
+ 2: Ext: GigabitEthernet0/1  : address is 0050.5693.5323, irq 9
+ 3: Ext: GigabitEthernet0/2  : address is 0050.5693.31b7, irq 11
+ 4: Ext: GigabitEthernet0/3  : address is 0050.5693.540c, irq 10
+ 5: Ext: GigabitEthernet0/4  : address is 0050.5693.4325, irq 5
+ 6: Ext: GigabitEthernet0/5  : address is 0050.5693.19db, irq 9
+ 7: Ext: GigabitEthernet0/6  : address is 0050.5693.248e, irq 11
+ 8: Ext: GigabitEthernet0/7  : address is 0050.5693.6fca, irq 10
+ 9: Ext: GigabitEthernet0/8  : address is 0050.5693.46a0, irq 5
+

@@ -1,0 +1,31 @@
+
+Command: show version
+Task:  Two failover modes:  Active or Standby
+       Check current license support.
+
+ASAv Platform License State: Licensed
+Active entitlement: ASAv-STD-2G, enforce mode: Authorized
+Licensed for maximum of 4 vCPUs
+
+Licensed features for this platform:
+Maximum Physical Interfaces       : 10             perpetual
+Maximum VLANs                     : 50             perpetual
+Inside Hosts                      : Unlimited      perpetual
+Failover                          : Active/Standby perpetual
+Encryption-DES                    : Enabled        perpetual
+Encryption-3DES-AES               : Enabled        perpetual
+Security Contexts                 : 0              perpetual
+GTP/GPRS                          : Enabled        perpetual
+AnyConnect Premium Peers          : 250            perpetual
+AnyConnect Essentials             : Disabled       perpetual
+Other VPN Peers                   : 250            perpetual
+Total VPN Peers                   : 250            perpetual
+Shared License                    : Disabled       perpetual
+AnyConnect for Mobile             : Enabled        perpetual
+AnyConnect for Cisco VPN Phone    : Enabled        perpetual
+Advanced Endpoint Assessment      : Enabled        perpetual
+UC Phone Proxy Sessions           : 500            perpetual
+Total UC Proxy Sessions           : 500            perpetual
+Botnet Traffic Filter             : Enabled        perpetual
+Intercompany Media Engine         : Enabled        perpetual
+Cluster                           : Disabled       perpetual

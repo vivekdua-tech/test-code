@@ -1,0 +1,451 @@
+
+
+RP/0/0/CPU0:PE1#show mpls forwarding fast-reroute detail
+Thu Mar 21 15:27:30.678 PDT
+^C
+Local  Outgoing    Prefix             Outgoing     Next Hop        Bytes
+Label  Label       or ID              Interface                    Switched
+------ ----------- ------------------ ------------ --------------- ------------
+24009              mLDP/IR: 0x00002 (0x00002)
+       Updated Mar 21 14:59:06.726
+       mLDP/IR LSM-ID: 0x00002, MDT: 0x40d0, Head LSM-ID: 0x00002
+       IPv4 Tableid: 0xe0000011, IPv6 Tableid: 0xe0800011
+       Flags:IP Lookup:set, Expnullv4:not-set, Expnullv6:not-set
+             Payload Type v4:not-set, Payload Type v6:not-set, l2vpn:not-set
+             Head:set, Tail:not-set, Bud:not-set, Peek:set, inclusive:not-set
+             Ingress Drop:not-set, Egress Drop:not-set
+             RPF-ID:0, Encap-ID:0
+             Disp-Tun:[ifh:0x0, label:-]
+             Platform Data [4]:
+              { 3 0 0 0 }
+       mpls paths: 2, local mpls paths: 0, protected mpls paths: 0
+
+       24007       mLDP/IR: 0x00002 (0x00002)   \
+                                                   192.168.0.2     0
+         Updated: Mar 21 14:57:13.163
+         My Nodeid:0x0
+         Interface Nodeids:
+           [ 0x10 - - - - - - - - -  ]
+         Interface Handles:
+           [ 0x800300 - - - - - - - - -  ]
+         Backup Interface Nodeids:
+           [ - - - - - - - - - - ]
+         Backup Interface Handles:
+           [ - - - - - - - - - - ]
+         via-label:24001, mpi-flags:0x0 tos_masks:[ primary:0x0 backup:0x0]
+         Packets Switched: 0
+       24001       mLDP/IR: 0x00002 (0x00002)   \
+                                                   192.168.0.3     0
+         Updated: Mar 21 14:59:06.726
+         My Nodeid:0x0
+         Interface Nodeids:
+           [ 0x10 - - - - - - - - -  ]
+         Interface Handles:
+           [ 0x800300 - - - - - - - - -  ]
+         Backup Interface Nodeids:
+           [ - - - - - - - - - - ]
+         Backup Interface Handles:
+           [ - - - - - - - - - - ]
+         via-label:24002, mpi-flags:0x0 tos_masks:[ primary:0x0 backup:0x0]
+         Packets Switched: 0
+RP/0/0/CPU0:PE1#
+RP/0/0/CPU0:PE1#
+
+
+kpoint 1, fib_ext_client_route_path_get_hashed_path_info (ecd_info=0x9d3c7b8, local_label=24001, igp_path=0xffd0b7f8)
+    at fib/common/src/fib_ext_client_route.c:509
+509         uint8_t path_cnt = 0, protected_cnt = 0;
+(gdb) n
+511         uint8_t arr_path[FIB_UPDATE_MSG_MAX_PATHS >> 1] = {0};
+(gdb)
+512         fib_ecd_route_path_st *path = NULL;
+(gdb)
+513         bool is_path_protected[FIB_UPDATE_MSG_MAX_PATHS] = {FALSE};
+(gdb)
+516         fec_route = (fib_ecd_route_st *)ecd_info;
+(gdb)
+517         path_cnt = fib_upd_msg_decode_route_get_path_count(fec_route);
+(gdb) p fec_route
+$1 = (fib_ecd_route_st *) 0x9d3c7b8
+(gdb) p *fec_route
+$2 = {cidl_route = {_fur_prefix = {_prefix_length = 29082128, _protocol = 570597656, _ipv4_address = 1085279515, _ipv6_address = {data = 0x150000,
+        size = 450887680}, _mpls_label = 204037, _have_prefix_length = false, _have_protocol = false, _have_ipv4_address = false, _have_ipv6_address = false,
+      _have_mpls_label = false}, _fur_local_label = 2156148744, _fur_version = 8074138440293253184, _fur_paths = 0x15000041, _fur_paths_count = 3758096384,
+    _fur_flags = 35456282, _fur_flags2 = 805502976, _fur_flags_extn = 3258451584, _fur_attribute_id = 71303611, _fur_li_type = 2155905064,
+    _fur_traffic_index = 3221374977, _fur_precedence = 769, _fur_qppb = 843776, _fur_lbl_nbrs = 0x80000, _fur_lbl_nbrs_count = 0,
+    _fur_mpls_upd_flags = 2831155200, _fur_ip_tableid = 512, _fur_forward_class = 0, _fur_priority = 0, _fur_flow_tag = 2097152, _fur_route_type = 0,
+    _fur_context_local_label = 0, _fur_prefix_encap_id = 4503601200300032, _fur_mpls_te_ifh = 19136512, _fur_mpls_p2mp_type = 0, _fur_mpls_p2mp_tableid = 0,
+    _fur_mpls_p2mp_flags = 0, _fur_mpls_p2mp_lsm_id = 0, _fur_mpls_p2mp_v4_tableid = 0, _fur_mpls_p2mp_v6_tableid = 4456448, _fur_mpls_p2mp_tun_id = 4456448,
+    _fur_mpls_p2mp_rpf_id = 0, _fur_mpls_p2mp_lspvif_ifh = 0, _fur_mpls_p2mp_plat_data = {data = 0x0, size = 3239051264},
+    _fur_mpls_p2mp_vpls_bridge_id = 2753036731, _fur_mpls_p2mp_vpls_shg_id = 219881986, _fur_mpls_p2mp_vpls_ifh = 16560, _fur_mpls_p2mp_vpls_xc_id = 21,
+    _fur_mpls_p2mp_encap_id = 486873824, _fur_mpls_p2mp_disp_ifh = 16777219, _have_fur_prefix = false, _have_fur_local_label = false, _have_fur_version = false,
+    _have_fur_paths = false, _have_fur_flags = true, _have_fur_flags2 = true, _have_fur_flags_extn = false, _have_fur_attribute_id = false,
+    _have_fur_li_type = false, _have_fur_traffic_index = false, _have_fur_precedence = false, _have_fur_qppb = false, _have_fur_lbl_nbrs = false,
+    _have_fur_mpls_upd_flags = false, _have_fur_ip_tableid = false, _have_fur_forward_class = true, _have_fur_priority = false, _have_fur_flow_tag = false,
+    _have_fur_route_type = false, _have_fur_context_local_label = true, _have_fur_prefix_encap_id = false, _have_fur_mpls_te_ifh = false,
+    _have_fur_mpls_p2mp_type = false, _have_fur_mpls_p2mp_tableid = false, _have_fur_mpls_p2mp_flags = false, _have_fur_mpls_p2mp_lsm_id = false,
+    _have_fur_mpls_p2mp_v4_tableid = false, _have_fur_mpls_p2mp_v6_tableid = true, _have_fur_mpls_p2mp_tun_id = true, _have_fur_mpls_p2mp_rpf_id = true,
+    _have_fur_mpls_p2mp_lspvif_ifh = false, _have_fur_mpls_p2mp_plat_data = false, _have_fur_mpls_p2mp_vpls_bridge_id = false,
+    _have_fur_mpls_p2mp_vpls_shg_id = false, _have_fur_mpls_p2mp_vpls_ifh = false, _have_fur_mpls_p2mp_vpls_xc_id = false, _have_fur_mpls_p2mp_encap_id = false,
+    _have_fur_mpls_p2mp_disp_ifh = false}, ctx_storage = {ft = 0x14220101, user_ctx = 0x41700d, fut_eod_version = 367852610188743936, fud_table = 0x21d,
+    thrd_ctxt = 0x6803003, fud_global = 0x80808028, fut_upd_flags = 1 '\001', priority = 29360897, fut_num_entries = 3, fud_tableid = 0,
+    fud_proto = FIB_PROTOCOL_IPV4, fut_route_source = FIB_INVALID_ROUTE, force_process_as_delete = 0, flush_opaques = 0, low_prio_upds = 0, update_stats = {
+      fib_rhs_update = 0, fib_rhs_delete = 0, fib_rhs_del_resolved = 0, fib_rhs_spl_opq = 0, fib_rhs_ltrace_filter = 0}}, c = {fudr_dynamic_gpb_buf = 0x0,
+    fudr_ctx = {fudr_c_nhinfo = 0x0, fudr_c_glean_nhinfo = 0x0, fudr_c_update_rc = 0}, update_ms_ts = 0, furd_path_count = 0 '\000',
+    furd_lbl_nbr_count = 0 '\000', fudt_ctx = 0x0, fudr_table = 0x0, fudr_tableid = 0, cidl_decoded = 0 '\000', any_path_is_labeled = 0 '\000',
+    any_path_is_unlabeled = 0 '\000', at_least_one_path_has_multiple_labels = 0 '\000', any_path_is_subscriber = 0 '\000', route_from_stale_rt_src = 0 '\000',
+    route_delete_is_purging_stale_route = 0 '\000', any_path_has_nhid = 0 '\000', any_path_has_srv6 = 0 '\000', route_is_srv6_local_sid = 0 '\000'}, o = {
+    cidl_msg = 0x0, cidl_msg_size = 0, fur_mpls_p2mp_plat_data = '\000' <repeats 255 times>, furd_paths = {{cidl_path = 0x0, out_labels = 0x0,
+        fudp_p2mp_locale = {cidl_p2mp_locale = 0x0}, fudp_p2mp_tos_locale = {{cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}}, fudp_p2mp_tos_locale_count = 0 '\000', fudp_next_hop_tableid = 0, fupd_next_hop = {fpfx_proto = 0, fpfx_len = 0,
+          fpfx_prefix = 0x0}, fupd_p_node_addr = {fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0}, fupd_q_node_addr = {fpfx_proto = 0, fpfx_len = 0,
+          fpfx_prefix = 0x0}, fupd_li_backup_next_hop = {fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0}, _fupd_next_hop_buf = {
+          buf = '\000' <repeats 19 times>}, _fupd_p_node_addr_buf = {buf = '\000' <repeats 15 times>}, _fupd_q_node_addr_buf = {
+          buf = '\000' <repeats 15 times>}, _fupd_li_backup_next_hop_buf = {buf = '\000' <repeats 19 times>}, _fudp_output_label = 0, fudp_nhid = 0,
+        out_label_flags = {(unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0),
+          (unknown: 0)}, fudp_path_idx = 0 '\000', out_label_count = 0 '\000', fupd_nnh = 0x0, fupd_nnh_count = 0 '\000', resolve_to_drop = 0 '\000',
+        srv6_sid_cnt = 0 '\000', fupd_srv6_sid = {__u6_addr = {__u6_addr8 = '\000' <repeats 15 times>, __u6_addr16 = {0, 0, 0, 0, 0, 0, 0, 0}, __u6_addr32 = {0,
+              0, 0, 0}, __u6_addr64 = {0, 0}}}, fupd_srv6_sid_stack = 0x0} <repeats 128 times>}, furd_lbl_nbrs = {{cidl_lbl_nbr = 0x0, fulnd_nbr_addr = {
+          fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0}, _fulnd_nbr_addr_buf = {buf = '\000' <repeats 19 times>}} <repeats 32 times>},
+    fudr_route_source = FIB_INVALID_ROUTE, fudr_label_source = FIB_INVALID_ROUTE, fudr_prefix = {fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0},
+    _fudr_prefix_buf = {buf = '\000' <repeats 19 times>}, fudr_upd_flags = 0, fudr_local_label = 0, fudr_context_local_label = 0,
+    low_prio_upds_valid = 0 '\000'}}
+(gdb) p /x *fec_route
+$3 = {cidl_route = {_fur_prefix = {_prefix_length = 0x1bbc210, _protocol = 0x2202a118, _ipv4_address = 0x40b00d1b, _ipv6_address = {data = 0x150000,
+        size = 0x1ae00000}, _mpls_label = 0x31d05, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0, _have_ipv6_address = 0x0,
+      _have_mpls_label = 0x0}, _fur_local_label = 0x80843808, _fur_version = 0x700d1a2201018040, _fur_paths = 0x15000041, _fur_paths_count = 0xe0000000,
+    _fur_flags = 0x21d051a, _fur_flags2 = 0x30030000, _fur_flags_extn = 0xc2380680, _fur_attribute_id = 0x44001bb, _fur_li_type = 0x80808028,
+    _fur_traffic_index = 0xc0024801, _fur_precedence = 0x301, _fur_qppb = 0xce000, _fur_lbl_nbrs = 0x80000, _fur_lbl_nbrs_count = 0x0,
+    _fur_mpls_upd_flags = 0xa8c00000, _fur_ip_tableid = 0x200, _fur_forward_class = 0x0, _fur_priority = 0x0, _fur_flow_tag = 0x200000, _fur_route_type = 0x0,
+    _fur_context_local_label = 0x0, _fur_prefix_encap_id = 0x1000005dc10000, _fur_mpls_te_ifh = 0x1240000, _fur_mpls_p2mp_type = 0x0,
+    _fur_mpls_p2mp_tableid = 0x0, _fur_mpls_p2mp_flags = 0x0, _fur_mpls_p2mp_lsm_id = 0x0, _fur_mpls_p2mp_v4_tableid = 0x0,
+    _fur_mpls_p2mp_v6_tableid = 0x440000, _fur_mpls_p2mp_tun_id = 0x440000, _fur_mpls_p2mp_rpf_id = 0x0, _fur_mpls_p2mp_lspvif_ifh = 0x0,
+    _fur_mpls_p2mp_plat_data = {data = 0x0, size = 0xc1100000}, _fur_mpls_p2mp_vpls_bridge_id = 0xa41801bb, _fur_mpls_p2mp_vpls_shg_id = 0xd1b2202,
+    _fur_mpls_p2mp_vpls_ifh = 0x40b0, _fur_mpls_p2mp_vpls_xc_id = 0x15, _fur_mpls_p2mp_encap_id = 0x1d051ae0, _fur_mpls_p2mp_disp_ifh = 0x1000003,
+    _have_fur_prefix = 0x0, _have_fur_local_label = 0x0, _have_fur_version = 0x0, _have_fur_paths = 0x0, _have_fur_flags = 0x1, _have_fur_flags2 = 0x1,
+    _have_fur_flags_extn = 0x0, _have_fur_attribute_id = 0x0, _have_fur_li_type = 0x0, _have_fur_traffic_index = 0x0, _have_fur_precedence = 0x0,
+    _have_fur_qppb = 0x0, _have_fur_lbl_nbrs = 0x0, _have_fur_mpls_upd_flags = 0x0, _have_fur_ip_tableid = 0x0, _have_fur_forward_class = 0x1,
+    _have_fur_priority = 0x0, _have_fur_flow_tag = 0x0, _have_fur_route_type = 0x0, _have_fur_context_local_label = 0x1, _have_fur_prefix_encap_id = 0x0,
+    _have_fur_mpls_te_ifh = 0x0, _have_fur_mpls_p2mp_type = 0x0, _have_fur_mpls_p2mp_tableid = 0x0, _have_fur_mpls_p2mp_flags = 0x0,
+    _have_fur_mpls_p2mp_lsm_id = 0x0, _have_fur_mpls_p2mp_v4_tableid = 0x0, _have_fur_mpls_p2mp_v6_tableid = 0x1, _have_fur_mpls_p2mp_tun_id = 0x1,
+    _have_fur_mpls_p2mp_rpf_id = 0x1, _have_fur_mpls_p2mp_lspvif_ifh = 0x0, _have_fur_mpls_p2mp_plat_data = 0x0, _have_fur_mpls_p2mp_vpls_bridge_id = 0x0,
+    _have_fur_mpls_p2mp_vpls_shg_id = 0x0, _have_fur_mpls_p2mp_vpls_ifh = 0x0, _have_fur_mpls_p2mp_vpls_xc_id = 0x0, _have_fur_mpls_p2mp_encap_id = 0x0,
+    _have_fur_mpls_p2mp_disp_ifh = 0x0}, ctx_storage = {ft = 0x14220101, user_ctx = 0x41700d, fut_eod_version = 0x51ae00000001500, fud_table = 0x21d,
+    thrd_ctxt = 0x6803003, fud_global = 0x80808028, fut_upd_flags = 0x1, priority = 0x1c00301, fut_num_entries = 0x3, fud_tableid = 0x0, fud_proto = 0x0,
+    fut_route_source = 0x0, force_process_as_delete = 0x0, flush_opaques = 0x0, low_prio_upds = 0x0, update_stats = {fib_rhs_update = 0x0, fib_rhs_delete = 0x0,
+      fib_rhs_del_resolved = 0x0, fib_rhs_spl_opq = 0x0, fib_rhs_ltrace_filter = 0x0}}, c = {fudr_dynamic_gpb_buf = 0x0, fudr_ctx = {fudr_c_nhinfo = 0x0,
+      fudr_c_glean_nhinfo = 0x0, fudr_c_update_rc = 0x0}, update_ms_ts = 0x0, furd_path_count = 0x0, furd_lbl_nbr_count = 0x0, fudt_ctx = 0x0, fudr_table = 0x0,
+    fudr_tableid = 0x0, cidl_decoded = 0x0, any_path_is_labeled = 0x0, any_path_is_unlabeled = 0x0, at_least_one_path_has_multiple_labels = 0x0,
+    any_path_is_subscriber = 0x0, route_from_stale_rt_src = 0x0, route_delete_is_purging_stale_route = 0x0, any_path_has_nhid = 0x0, any_path_has_srv6 = 0x0,
+    route_is_srv6_local_sid = 0x0}, o = {cidl_msg = 0x0, cidl_msg_size = 0x0, fur_mpls_p2mp_plat_data = {0x0 <repeats 256 times>}, furd_paths = {{
+        cidl_path = 0x0, out_labels = 0x0, fudp_p2mp_locale = {cidl_p2mp_locale = 0x0}, fudp_p2mp_tos_locale = {{cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}}, fudp_p2mp_tos_locale_count = 0x0, fudp_next_hop_tableid = 0x0,
+        fupd_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_p_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0},
+        fupd_q_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_li_backup_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fupd_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fupd_p_node_addr_buf = {buf = {0x0 <repeats 16 times>}},
+        _fupd_q_node_addr_buf = {buf = {0x0 <repeats 16 times>}}, _fupd_li_backup_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fudp_output_label = 0x0,
+        fudp_nhid = 0x0, out_label_flags = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, fudp_path_idx = 0x0, out_label_count = 0x0, fupd_nnh = 0x0,
+        fupd_nnh_count = 0x0, resolve_to_drop = 0x0, srv6_sid_cnt = 0x0, fupd_srv6_sid = {__u6_addr = {__u6_addr8 = {0x0 <repeats 16 times>}, __u6_addr16 = {
+              0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, __u6_addr32 = {0x0, 0x0, 0x0, 0x0}, __u6_addr64 = {0x0, 0x0}}},
+        fupd_srv6_sid_stack = 0x0} <repeats 128 times>}, furd_lbl_nbrs = {{cidl_lbl_nbr = 0x0, fulnd_nbr_addr = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fulnd_nbr_addr_buf = {buf = {0x0 <repeats 20 times>}}} <repeats 32 times>}, fudr_route_source = 0x0, fudr_label_source = 0x0,
+    fudr_prefix = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, _fudr_prefix_buf = {buf = {0x0 <repeats 20 times>}}, fudr_upd_flags = 0x0,
+    fudr_local_label = 0x0, fudr_context_local_label = 0x0, low_prio_upds_valid = 0x0}}
+(gdb) bt
+#0  fib_ext_client_route_path_get_hashed_path_info (ecd_info=0x9d3c7b8, local_label=24001, igp_path=0xffd0b7f8) at fib/common/src/fib_ext_client_route.c:517
+#1  0x081a5171 in mrib_label_nh_regdb_path_changes (outinfo_handle=0xe5ae79f8, old_ecd_info=0x9b71e60, new_ecd_info=0xffd0d0bc)
+    at ./ipv4/multicast/mrib/src/mrib_label_nh_path_selection.c:174
+#2  0x081a568b in mrib_label_nh_regdb_leaf_walk_ft (regdb_entry=0x9b71e28, ole_type=MRIB_REGDB_OLE_LMRIB_IF, ole=0xe5ae79f8, arg=0xffd0d0bc)
+    at ./ipv4/multicast/mrib/src/mrib_label_nh_path_selection.c:316
+#3  0x0816cdef in mrib_regdb_leaf_walk (regdb_entry=0x9b71e28, ole_type=MRIB_REGDB_OLE_LMRIB_IF, f=0x81a555e <mrib_label_nh_regdb_leaf_walk_ft>, arg=0xffd0d0bc,
+    terminate_on_error=0) at ./ipv4/multicast/mrib/src/mrib_regdb.c:611
+#4  0x081a5941 in mrib_label_nh_regdb_mdf (regdb_handle=0x9b71e28, ecd_info=0xffd0d0bc) at ./ipv4/multicast/mrib/src/mrib_label_nh_path_selection.c:366
+#5  0x0816c205 in mrib_regdb_operation (action=MRIB_ACTION_MODIFY, regdb_key=0xffd0d0c4, new_regdb=0, ecd_info=0xffd0d0bc, regdb_entry=0xffd0d0dc)
+    at ./ipv4/multicast/mrib/src/mrib_regdb.c:251
+#6  0x0816b3c9 in mrib_fib_notif_handler (update_data_type=FEC_UPDATE_DATA_REACH_NOTIF, update_data=0x9d3c758, update_platf_data=0x9d3c7b8)
+    at ./ipv4/multicast/mrib/src/mrib_fib.c:979
+#7  0xf73c87ce in fec_event_handler (evc=0xffd0d774, arg=0x9d3c698) at fib/common/src/fib_ext_client.c:515
+#8  0xf775b7bf in _event_pulse_handler (evc=0xffd0d774, amsg=0x82531e0 <mrib_msg>, ap=0x0) at infra/infra/event_manager/src/event_async.c:398
+#9  0xf77586ac in event_dispatch (evc=0xffd0d774, ap=0x0) at infra/infra/event_manager/src/event_manager.c:795
+#10 0x0805cf3e in main (argc=0, argv=0xffd0d898) at ./ipv4/multicast/mrib/src/mrib.c:2035
+(gdb) p fec_route
+$4 = (fib_ecd_route_st *) 0x9d3c7b8
+(gdb) f 7
+#7  0xf73c87ce in fec_event_handler (evc=0xffd0d774, arg=0x9d3c698) at fib/common/src/fib_ext_client.c:515
+515                     conn_ctx->fec_notif_func(FEC_UPDATE_DATA_REACH_NOTIF,
+(gdb) l
+510                             FIB_DBG_LVL_HI,"client reach notif_func called for "
+511                             "client: %s (comp-id:%#x) proto:%d",
+512                             conn_ctx->fec_init_data.feci_name,
+513                             conn_ctx->fec_init_data.feci_component_id,
+514                             PAMNA2FIB(conn_ctx->fec_init_data.feci_protocol));
+515                     conn_ctx->fec_notif_func(FEC_UPDATE_DATA_REACH_NOTIF,
+516                                              fecp_pfx,
+517                                              fecp_pfx_plat);
+518                 }
+519                 ii++;
+(gdb) p fecp_pfx_plat
+$5 = (void *) 0x9d3c7b8
+(gdb) p *((fib_prefix_st *)fecp_pfx)
+$6 = {fpfx_proto = 0, fpfx_len = 57344, fpfx_prefix = 0xc}
+(gdb) p /x *((fib_prefix_st *)fecp_pfx)
+$7 = {fpfx_proto = 0x0, fpfx_len = 0xe000, fpfx_prefix = 0xc}
+(gdb) p *((fib_prefix_st *)fecp_pfx)
+$8 = {fpfx_proto = 0, fpfx_len = 57344, fpfx_prefix = 0xc}
+(gdb) p *((fib_ext_client_prefix_st *)fecp_pfx)
+$9 = {fecp_table_id = 3758096384, fecp_proto = PFI_PAMNA_PROTO_IPV4, fecp_interest = FEC_REG_MPLS_ROUTE_NOTIF, fecp_ifh = 0,
+  fecp_dst_ip_addr = "\300\250\000\003", '\000' <repeats 11 times>, fecp_mask_len = 32, fecp_lsm_id = 0, fecp_vialabel = 0, fecp_local_label = 24002,
+  fecp_internal_flags = 16, fecp_rt_version = 289, fecp_cookie = '\000' <repeats 15 times>, fecp_context_buf_sz = 74, fecp_context_len = 74,
+  fecp_sr_pfx_count = 0, fecp_tc_more_updates = 0, fecp_context = 0x9d3c7b8}
+(gdb) p /x *((fib_ext_client_prefix_st *)fecp_pfx)
+$10 = {fecp_table_id = 0xe0000000, fecp_proto = 0xc, fecp_interest = 0x8, fecp_ifh = 0x0, fecp_dst_ip_addr = {0xc0, 0xa8, 0x0, 0x3, 0x0 <repeats 12 times>},
+  fecp_mask_len = 0x20, fecp_lsm_id = 0x0, fecp_vialabel = 0x0, fecp_local_label = 0x5dc2, fecp_internal_flags = 0x10, fecp_rt_version = 0x121, fecp_cookie = {
+    0x0 <repeats 16 times>}, fecp_context_buf_sz = 0x4a, fecp_context_len = 0x4a, fecp_sr_pfx_count = 0x0, fecp_tc_more_updates = 0x0, fecp_context = 0x9d3c7b8}
+(gdb) p /x *((fib_ecd_route_st *)fecp_pfx_plat)
+$11 = {cidl_route = {_fur_prefix = {_prefix_length = 0x1bbc210, _protocol = 0x2202a118, _ipv4_address = 0x40b00d1b, _ipv6_address = {data = 0x150000,
+        size = 0x1ae00000}, _mpls_label = 0x31d05, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0, _have_ipv6_address = 0x0,
+      _have_mpls_label = 0x0}, _fur_local_label = 0x80843808, _fur_version = 0x700d1a2201018040, _fur_paths = 0x15000041, _fur_paths_count = 0xe0000000,
+    _fur_flags = 0x21d051a, _fur_flags2 = 0x30030000, _fur_flags_extn = 0xc2380680, _fur_attribute_id = 0x44001bb, _fur_li_type = 0x80808028,
+    _fur_traffic_index = 0xc0024801, _fur_precedence = 0x301, _fur_qppb = 0xce000, _fur_lbl_nbrs = 0x80000, _fur_lbl_nbrs_count = 0x0,
+    _fur_mpls_upd_flags = 0xa8c00000, _fur_ip_tableid = 0x200, _fur_forward_class = 0x0, _fur_priority = 0x0, _fur_flow_tag = 0x200000, _fur_route_type = 0x0,
+    _fur_context_local_label = 0x0, _fur_prefix_encap_id = 0x1000005dc10000, _fur_mpls_te_ifh = 0x1240000, _fur_mpls_p2mp_type = 0x0,
+    _fur_mpls_p2mp_tableid = 0x0, _fur_mpls_p2mp_flags = 0x0, _fur_mpls_p2mp_lsm_id = 0x0, _fur_mpls_p2mp_v4_tableid = 0x0,
+    _fur_mpls_p2mp_v6_tableid = 0x440000, _fur_mpls_p2mp_tun_id = 0x440000, _fur_mpls_p2mp_rpf_id = 0x0, _fur_mpls_p2mp_lspvif_ifh = 0x0,
+    _fur_mpls_p2mp_plat_data = {data = 0x0, size = 0xc1100000}, _fur_mpls_p2mp_vpls_bridge_id = 0xa41801bb, _fur_mpls_p2mp_vpls_shg_id = 0xd1b2202,
+    _fur_mpls_p2mp_vpls_ifh = 0x40b0, _fur_mpls_p2mp_vpls_xc_id = 0x15, _fur_mpls_p2mp_encap_id = 0x1d051ae0, _fur_mpls_p2mp_disp_ifh = 0x1000003,
+    _have_fur_prefix = 0x0, _have_fur_local_label = 0x0, _have_fur_version = 0x0, _have_fur_paths = 0x0, _have_fur_flags = 0x1, _have_fur_flags2 = 0x1,
+    _have_fur_flags_extn = 0x0, _have_fur_attribute_id = 0x0, _have_fur_li_type = 0x0, _have_fur_traffic_index = 0x0, _have_fur_precedence = 0x0,
+    _have_fur_qppb = 0x0, _have_fur_lbl_nbrs = 0x0, _have_fur_mpls_upd_flags = 0x0, _have_fur_ip_tableid = 0x0, _have_fur_forward_class = 0x1,
+    _have_fur_priority = 0x0, _have_fur_flow_tag = 0x0, _have_fur_route_type = 0x0, _have_fur_context_local_label = 0x1, _have_fur_prefix_encap_id = 0x0,
+    _have_fur_mpls_te_ifh = 0x0, _have_fur_mpls_p2mp_type = 0x0, _have_fur_mpls_p2mp_tableid = 0x0, _have_fur_mpls_p2mp_flags = 0x0,
+    _have_fur_mpls_p2mp_lsm_id = 0x0, _have_fur_mpls_p2mp_v4_tableid = 0x0, _have_fur_mpls_p2mp_v6_tableid = 0x1, _have_fur_mpls_p2mp_tun_id = 0x1,
+    _have_fur_mpls_p2mp_rpf_id = 0x1, _have_fur_mpls_p2mp_lspvif_ifh = 0x0, _have_fur_mpls_p2mp_plat_data = 0x0, _have_fur_mpls_p2mp_vpls_bridge_id = 0x0,
+    _have_fur_mpls_p2mp_vpls_shg_id = 0x0, _have_fur_mpls_p2mp_vpls_ifh = 0x0, _have_fur_mpls_p2mp_vpls_xc_id = 0x0, _have_fur_mpls_p2mp_encap_id = 0x0,
+    _have_fur_mpls_p2mp_disp_ifh = 0x0}, ctx_storage = {ft = 0x14220101, user_ctx = 0x41700d, fut_eod_version = 0x51ae00000001500, fud_table = 0x21d,
+    thrd_ctxt = 0x6803003, fud_global = 0x80808028, fut_upd_flags = 0x1, priority = 0x1c00301, fut_num_entries = 0x3, fud_tableid = 0x0, fud_proto = 0x0,
+    fut_route_source = 0x0, force_process_as_delete = 0x0, flush_opaques = 0x0, low_prio_upds = 0x0, update_stats = {fib_rhs_update = 0x0, fib_rhs_delete = 0x0,
+      fib_rhs_del_resolved = 0x0, fib_rhs_spl_opq = 0x0, fib_rhs_ltrace_filter = 0x0}}, c = {fudr_dynamic_gpb_buf = 0x0, fudr_ctx = {fudr_c_nhinfo = 0x0,
+      fudr_c_glean_nhinfo = 0x0, fudr_c_update_rc = 0x0}, update_ms_ts = 0x0, furd_path_count = 0x0, furd_lbl_nbr_count = 0x0, fudt_ctx = 0x0, fudr_table = 0x0,
+    fudr_tableid = 0x0, cidl_decoded = 0x0, any_path_is_labeled = 0x0, any_path_is_unlabeled = 0x0, at_least_one_path_has_multiple_labels = 0x0,
+    any_path_is_subscriber = 0x0, route_from_stale_rt_src = 0x0, route_delete_is_purging_stale_route = 0x0, any_path_has_nhid = 0x0, any_path_has_srv6 = 0x0,
+    route_is_srv6_local_sid = 0x0}, o = {cidl_msg = 0x0, cidl_msg_size = 0x0, fur_mpls_p2mp_plat_data = {0x0 <repeats 256 times>}, furd_paths = {{
+        cidl_path = 0x0, out_labels = 0x0, fudp_p2mp_locale = {cidl_p2mp_locale = 0x0}, fudp_p2mp_tos_locale = {{cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}}, fudp_p2mp_tos_locale_count = 0x0, fudp_next_hop_tableid = 0x0,
+        fupd_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_p_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0},
+        fupd_q_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_li_backup_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fupd_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fupd_p_node_addr_buf = {buf = {0x0 <repeats 16 times>}},
+        _fupd_q_node_addr_buf = {buf = {0x0 <repeats 16 times>}}, _fupd_li_backup_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fudp_output_label = 0x0,
+        fudp_nhid = 0x0, out_label_flags = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, fudp_path_idx = 0x0, out_label_count = 0x0, fupd_nnh = 0x0,
+        fupd_nnh_count = 0x0, resolve_to_drop = 0x0, srv6_sid_cnt = 0x0, fupd_srv6_sid = {__u6_addr = {__u6_addr8 = {0x0 <repeats 16 times>}, __u6_addr16 = {
+              0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, __u6_addr32 = {0x0, 0x0, 0x0, 0x0}, __u6_addr64 = {0x0, 0x0}}},
+        fupd_srv6_sid_stack = 0x0} <repeats 128 times>}, furd_lbl_nbrs = {{cidl_lbl_nbr = 0x0, fulnd_nbr_addr = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fulnd_nbr_addr_buf = {buf = {0x0 <repeats 20 times>}}} <repeats 32 times>}, fudr_route_source = 0x0, fudr_label_source = 0x0,
+    fudr_prefix = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, _fudr_prefix_buf = {buf = {0x0 <repeats 20 times>}}, fudr_upd_flags = 0x0,
+    fudr_local_label = 0x0, fudr_context_local_label = 0x0, low_prio_upds_valid = 0x0}}
+(gdb) p *((fib_ecd_route_st *)fecp_pfx_plat)
+$12 = {cidl_route = {_fur_prefix = {_prefix_length = 29082128, _protocol = 570597656, _ipv4_address = 1085279515, _ipv6_address = {data = 0x150000,
+        size = 450887680}, _mpls_label = 204037, _have_prefix_length = false, _have_protocol = false, _have_ipv4_address = false, _have_ipv6_address = false,
+      _have_mpls_label = false}, _fur_local_label = 2156148744, _fur_version = 8074138440293253184, _fur_paths = 0x15000041, _fur_paths_count = 3758096384,
+    _fur_flags = 35456282, _fur_flags2 = 805502976, _fur_flags_extn = 3258451584, _fur_attribute_id = 71303611, _fur_li_type = 2155905064,
+    _fur_traffic_index = 3221374977, _fur_precedence = 769, _fur_qppb = 843776, _fur_lbl_nbrs = 0x80000, _fur_lbl_nbrs_count = 0,
+    _fur_mpls_upd_flags = 2831155200, _fur_ip_tableid = 512, _fur_forward_class = 0, _fur_priority = 0, _fur_flow_tag = 2097152, _fur_route_type = 0,
+    _fur_context_local_label = 0, _fur_prefix_encap_id = 4503601200300032, _fur_mpls_te_ifh = 19136512, _fur_mpls_p2mp_type = 0, _fur_mpls_p2mp_tableid = 0,
+    _fur_mpls_p2mp_flags = 0, _fur_mpls_p2mp_lsm_id = 0, _fur_mpls_p2mp_v4_tableid = 0, _fur_mpls_p2mp_v6_tableid = 4456448, _fur_mpls_p2mp_tun_id = 4456448,
+    _fur_mpls_p2mp_rpf_id = 0, _fur_mpls_p2mp_lspvif_ifh = 0, _fur_mpls_p2mp_plat_data = {data = 0x0, size = 3239051264},
+    _fur_mpls_p2mp_vpls_bridge_id = 2753036731, _fur_mpls_p2mp_vpls_shg_id = 219881986, _fur_mpls_p2mp_vpls_ifh = 16560, _fur_mpls_p2mp_vpls_xc_id = 21,
+    _fur_mpls_p2mp_encap_id = 486873824, _fur_mpls_p2mp_disp_ifh = 16777219, _have_fur_prefix = false, _have_fur_local_label = false, _have_fur_version = false,
+    _have_fur_paths = false, _have_fur_flags = true, _have_fur_flags2 = true, _have_fur_flags_extn = false, _have_fur_attribute_id = false,
+    _have_fur_li_type = false, _have_fur_traffic_index = false, _have_fur_precedence = false, _have_fur_qppb = false, _have_fur_lbl_nbrs = false,
+    _have_fur_mpls_upd_flags = false, _have_fur_ip_tableid = false, _have_fur_forward_class = true, _have_fur_priority = false, _have_fur_flow_tag = false,
+    _have_fur_route_type = false, _have_fur_context_local_label = true, _have_fur_prefix_encap_id = false, _have_fur_mpls_te_ifh = false,
+    _have_fur_mpls_p2mp_type = false, _have_fur_mpls_p2mp_tableid = false, _have_fur_mpls_p2mp_flags = false, _have_fur_mpls_p2mp_lsm_id = false,
+    _have_fur_mpls_p2mp_v4_tableid = false, _have_fur_mpls_p2mp_v6_tableid = true, _have_fur_mpls_p2mp_tun_id = true, _have_fur_mpls_p2mp_rpf_id = true,
+    _have_fur_mpls_p2mp_lspvif_ifh = false, _have_fur_mpls_p2mp_plat_data = false, _have_fur_mpls_p2mp_vpls_bridge_id = false,
+    _have_fur_mpls_p2mp_vpls_shg_id = false, _have_fur_mpls_p2mp_vpls_ifh = false, _have_fur_mpls_p2mp_vpls_xc_id = false, _have_fur_mpls_p2mp_encap_id = false,
+    _have_fur_mpls_p2mp_disp_ifh = false}, ctx_storage = {ft = 0x14220101, user_ctx = 0x41700d, fut_eod_version = 367852610188743936, fud_table = 0x21d,
+    thrd_ctxt = 0x6803003, fud_global = 0x80808028, fut_upd_flags = 1 '\001', priority = 29360897, fut_num_entries = 3, fud_tableid = 0,
+    fud_proto = FIB_PROTOCOL_IPV4, fut_route_source = FIB_INVALID_ROUTE, force_process_as_delete = 0, flush_opaques = 0, low_prio_upds = 0, update_stats = {
+      fib_rhs_update = 0, fib_rhs_delete = 0, fib_rhs_del_resolved = 0, fib_rhs_spl_opq = 0, fib_rhs_ltrace_filter = 0}}, c = {fudr_dynamic_gpb_buf = 0x0,
+    fudr_ctx = {fudr_c_nhinfo = 0x0, fudr_c_glean_nhinfo = 0x0, fudr_c_update_rc = 0}, update_ms_ts = 0, furd_path_count = 0 '\000',
+    furd_lbl_nbr_count = 0 '\000', fudt_ctx = 0x0, fudr_table = 0x0, fudr_tableid = 0, cidl_decoded = 0 '\000', any_path_is_labeled = 0 '\000',
+    any_path_is_unlabeled = 0 '\000', at_least_one_path_has_multiple_labels = 0 '\000', any_path_is_subscriber = 0 '\000', route_from_stale_rt_src = 0 '\000',
+    route_delete_is_purging_stale_route = 0 '\000', any_path_has_nhid = 0 '\000', any_path_has_srv6 = 0 '\000', route_is_srv6_local_sid = 0 '\000'}, o = {
+    cidl_msg = 0x0, cidl_msg_size = 0, fur_mpls_p2mp_plat_data = '\000' <repeats 255 times>, furd_paths = {{cidl_path = 0x0, out_labels = 0x0,
+        fudp_p2mp_locale = {cidl_p2mp_locale = 0x0}, fudp_p2mp_tos_locale = {{cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}}, fudp_p2mp_tos_locale_count = 0 '\000', fudp_next_hop_tableid = 0, fupd_next_hop = {fpfx_proto = 0, fpfx_len = 0,
+          fpfx_prefix = 0x0}, fupd_p_node_addr = {fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0}, fupd_q_node_addr = {fpfx_proto = 0, fpfx_len = 0,
+          fpfx_prefix = 0x0}, fupd_li_backup_next_hop = {fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0}, _fupd_next_hop_buf = {
+          buf = '\000' <repeats 19 times>}, _fupd_p_node_addr_buf = {buf = '\000' <repeats 15 times>}, _fupd_q_node_addr_buf = {
+          buf = '\000' <repeats 15 times>}, _fupd_li_backup_next_hop_buf = {buf = '\000' <repeats 19 times>}, _fudp_output_label = 0, fudp_nhid = 0,
+        out_label_flags = {(unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0), (unknown: 0),
+          (unknown: 0)}, fudp_path_idx = 0 '\000', out_label_count = 0 '\000', fupd_nnh = 0x0, fupd_nnh_count = 0 '\000', resolve_to_drop = 0 '\000',
+        srv6_sid_cnt = 0 '\000', fupd_srv6_sid = {__u6_addr = {__u6_addr8 = '\000' <repeats 15 times>, __u6_addr16 = {0, 0, 0, 0, 0, 0, 0, 0}, __u6_addr32 = {0,
+              0, 0, 0}, __u6_addr64 = {0, 0}}}, fupd_srv6_sid_stack = 0x0} <repeats 128 times>}, furd_lbl_nbrs = {{cidl_lbl_nbr = 0x0, fulnd_nbr_addr = {
+          fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0}, _fulnd_nbr_addr_buf = {buf = '\000' <repeats 19 times>}} <repeats 32 times>},
+    fudr_route_source = FIB_INVALID_ROUTE, fudr_label_source = FIB_INVALID_ROUTE, fudr_prefix = {fpfx_proto = 0, fpfx_len = 0, fpfx_prefix = 0x0},
+    _fudr_prefix_buf = {buf = '\000' <repeats 19 times>}, fudr_upd_flags = 0, fudr_local_label = 0, fudr_context_local_label = 0,
+    low_prio_upds_valid = 0 '\000'}}
+(gdb) p /x *((fib_ecd_route_st *)fecp_pfx_plat)
+$13 = {cidl_route = {_fur_prefix = {_prefix_length = 0x1bbc210, _protocol = 0x2202a118, _ipv4_address = 0x40b00d1b, _ipv6_address = {data = 0x150000,
+        size = 0x1ae00000}, _mpls_label = 0x31d05, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0, _have_ipv6_address = 0x0,
+      _have_mpls_label = 0x0}, _fur_local_label = 0x80843808, _fur_version = 0x700d1a2201018040, _fur_paths = 0x15000041, _fur_paths_count = 0xe0000000,
+    _fur_flags = 0x21d051a, _fur_flags2 = 0x30030000, _fur_flags_extn = 0xc2380680, _fur_attribute_id = 0x44001bb, _fur_li_type = 0x80808028,
+    _fur_traffic_index = 0xc0024801, _fur_precedence = 0x301, _fur_qppb = 0xce000, _fur_lbl_nbrs = 0x80000, _fur_lbl_nbrs_count = 0x0,
+    _fur_mpls_upd_flags = 0xa8c00000, _fur_ip_tableid = 0x200, _fur_forward_class = 0x0, _fur_priority = 0x0, _fur_flow_tag = 0x200000, _fur_route_type = 0x0,
+    _fur_context_local_label = 0x0, _fur_prefix_encap_id = 0x1000005dc10000, _fur_mpls_te_ifh = 0x1240000, _fur_mpls_p2mp_type = 0x0,
+    _fur_mpls_p2mp_tableid = 0x0, _fur_mpls_p2mp_flags = 0x0, _fur_mpls_p2mp_lsm_id = 0x0, _fur_mpls_p2mp_v4_tableid = 0x0,
+    _fur_mpls_p2mp_v6_tableid = 0x440000, _fur_mpls_p2mp_tun_id = 0x440000, _fur_mpls_p2mp_rpf_id = 0x0, _fur_mpls_p2mp_lspvif_ifh = 0x0,
+    _fur_mpls_p2mp_plat_data = {data = 0x0, size = 0xc1100000}, _fur_mpls_p2mp_vpls_bridge_id = 0xa41801bb, _fur_mpls_p2mp_vpls_shg_id = 0xd1b2202,
+    _fur_mpls_p2mp_vpls_ifh = 0x40b0, _fur_mpls_p2mp_vpls_xc_id = 0x15, _fur_mpls_p2mp_encap_id = 0x1d051ae0, _fur_mpls_p2mp_disp_ifh = 0x1000003,
+    _have_fur_prefix = 0x0, _have_fur_local_label = 0x0, _have_fur_version = 0x0, _have_fur_paths = 0x0, _have_fur_flags = 0x1, _have_fur_flags2 = 0x1,
+    _have_fur_flags_extn = 0x0, _have_fur_attribute_id = 0x0, _have_fur_li_type = 0x0, _have_fur_traffic_index = 0x0, _have_fur_precedence = 0x0,
+    _have_fur_qppb = 0x0, _have_fur_lbl_nbrs = 0x0, _have_fur_mpls_upd_flags = 0x0, _have_fur_ip_tableid = 0x0, _have_fur_forward_class = 0x1,
+    _have_fur_priority = 0x0, _have_fur_flow_tag = 0x0, _have_fur_route_type = 0x0, _have_fur_context_local_label = 0x1, _have_fur_prefix_encap_id = 0x0,
+    _have_fur_mpls_te_ifh = 0x0, _have_fur_mpls_p2mp_type = 0x0, _have_fur_mpls_p2mp_tableid = 0x0, _have_fur_mpls_p2mp_flags = 0x0,
+    _have_fur_mpls_p2mp_lsm_id = 0x0, _have_fur_mpls_p2mp_v4_tableid = 0x0, _have_fur_mpls_p2mp_v6_tableid = 0x1, _have_fur_mpls_p2mp_tun_id = 0x1,
+    _have_fur_mpls_p2mp_rpf_id = 0x1, _have_fur_mpls_p2mp_lspvif_ifh = 0x0, _have_fur_mpls_p2mp_plat_data = 0x0, _have_fur_mpls_p2mp_vpls_bridge_id = 0x0,
+    _have_fur_mpls_p2mp_vpls_shg_id = 0x0, _have_fur_mpls_p2mp_vpls_ifh = 0x0, _have_fur_mpls_p2mp_vpls_xc_id = 0x0, _have_fur_mpls_p2mp_encap_id = 0x0,
+    _have_fur_mpls_p2mp_disp_ifh = 0x0}, ctx_storage = {ft = 0x14220101, user_ctx = 0x41700d, fut_eod_version = 0x51ae00000001500, fud_table = 0x21d,
+    thrd_ctxt = 0x6803003, fud_global = 0x80808028, fut_upd_flags = 0x1, priority = 0x1c00301, fut_num_entries = 0x3, fud_tableid = 0x0, fud_proto = 0x0,
+    fut_route_source = 0x0, force_process_as_delete = 0x0, flush_opaques = 0x0, low_prio_upds = 0x0, update_stats = {fib_rhs_update = 0x0, fib_rhs_delete = 0x0,
+      fib_rhs_del_resolved = 0x0, fib_rhs_spl_opq = 0x0, fib_rhs_ltrace_filter = 0x0}}, c = {fudr_dynamic_gpb_buf = 0x0, fudr_ctx = {fudr_c_nhinfo = 0x0,
+      fudr_c_glean_nhinfo = 0x0, fudr_c_update_rc = 0x0}, update_ms_ts = 0x0, furd_path_count = 0x0, furd_lbl_nbr_count = 0x0, fudt_ctx = 0x0, fudr_table = 0x0,
+    fudr_tableid = 0x0, cidl_decoded = 0x0, any_path_is_labeled = 0x0, any_path_is_unlabeled = 0x0, at_least_one_path_has_multiple_labels = 0x0,
+    any_path_is_subscriber = 0x0, route_from_stale_rt_src = 0x0, route_delete_is_purging_stale_route = 0x0, any_path_has_nhid = 0x0, any_path_has_srv6 = 0x0,
+    route_is_srv6_local_sid = 0x0}, o = {cidl_msg = 0x0, cidl_msg_size = 0x0, fur_mpls_p2mp_plat_data = {0x0 <repeats 256 times>}, furd_paths = {{
+        cidl_path = 0x0, out_labels = 0x0, fudp_p2mp_locale = {cidl_p2mp_locale = 0x0}, fudp_p2mp_tos_locale = {{cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}}, fudp_p2mp_tos_locale_count = 0x0, fudp_next_hop_tableid = 0x0,
+        fupd_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_p_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0},
+        fupd_q_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_li_backup_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fupd_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fupd_p_node_addr_buf = {buf = {0x0 <repeats 16 times>}},
+        _fupd_q_node_addr_buf = {buf = {0x0 <repeats 16 times>}}, _fupd_li_backup_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fudp_output_label = 0x0,
+        fudp_nhid = 0x0, out_label_flags = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, fudp_path_idx = 0x0, out_label_count = 0x0, fupd_nnh = 0x0,
+        fupd_nnh_count = 0x0, resolve_to_drop = 0x0, srv6_sid_cnt = 0x0, fupd_srv6_sid = {__u6_addr = {__u6_addr8 = {0x0 <repeats 16 times>}, __u6_addr16 = {
+              0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, __u6_addr32 = {0x0, 0x0, 0x0, 0x0}, __u6_addr64 = {0x0, 0x0}}},
+        fupd_srv6_sid_stack = 0x0} <repeats 128 times>}, furd_lbl_nbrs = {{cidl_lbl_nbr = 0x0, fulnd_nbr_addr = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fulnd_nbr_addr_buf = {buf = {0x0 <repeats 20 times>}}} <repeats 32 times>}, fudr_route_source = 0x0, fudr_label_source = 0x0,
+    fudr_prefix = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, _fudr_prefix_buf = {buf = {0x0 <repeats 20 times>}}, fudr_upd_flags = 0x0,
+    fudr_local_label = 0x0, fudr_context_local_label = 0x0, low_prio_upds_valid = 0x0}}
+(gdb) p /x *((fib_upd_msg_encode_route_t *)fecp_pfx_plat)
+$14 = {fue_buf = 0x1bbc210, cidl_route = {_fur_prefix = {_prefix_length = 0x2202a118, _protocol = 0x40b00d1b, _ipv4_address = 0x150000, _ipv6_address = {
+        data = 0x1ae00000, size = 0x31d05}, _mpls_label = 0x80300100, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0,
+      _have_ipv6_address = 0x1, _have_mpls_label = 0x0}, _fur_local_label = 0x1018040, _fur_version = 0x15000041700d1a22, _fur_paths = 0xe0000000,
+    _fur_paths_count = 0x21d051a, _fur_flags = 0x30030000, _fur_flags2 = 0xc2380680, _fur_flags_extn = 0x44001bb, _fur_attribute_id = 0x80808028,
+    _fur_li_type = 0xc0024801, _fur_traffic_index = 0x301, _fur_precedence = 0xce000, _fur_qppb = 0x80000, _fur_lbl_nbrs = 0x0,
+    _fur_lbl_nbrs_count = 0xa8c00000, _fur_mpls_upd_flags = 0x200, _fur_ip_tableid = 0x0, _fur_forward_class = 0x0, _fur_priority = 0x200000,
+    _fur_flow_tag = 0x0, _fur_route_type = 0x0, _fur_context_local_label = 0x5dc10000, _fur_prefix_encap_id = 0x124000000100000, _fur_mpls_te_ifh = 0x0,
+    _fur_mpls_p2mp_type = 0x0, _fur_mpls_p2mp_tableid = 0x0, _fur_mpls_p2mp_flags = 0x0, _fur_mpls_p2mp_lsm_id = 0x0, _fur_mpls_p2mp_v4_tableid = 0x440000,
+    _fur_mpls_p2mp_v6_tableid = 0x440000, _fur_mpls_p2mp_tun_id = 0x0, _fur_mpls_p2mp_rpf_id = 0x0, _fur_mpls_p2mp_lspvif_ifh = 0x0, _fur_mpls_p2mp_plat_data = {
+      data = 0xc1100000, size = 0xa41801bb}, _fur_mpls_p2mp_vpls_bridge_id = 0xd1b2202, _fur_mpls_p2mp_vpls_shg_id = 0x40b0, _fur_mpls_p2mp_vpls_ifh = 0x15,
+    _fur_mpls_p2mp_vpls_xc_id = 0x1d051ae0, _fur_mpls_p2mp_encap_id = 0x1000003, _fur_mpls_p2mp_disp_ifh = 0x38088030, _have_fur_prefix = 0x0,
+    _have_fur_local_label = 0x0, _have_fur_version = 0x0, _have_fur_paths = 0x0, _have_fur_flags = 0x0, _have_fur_flags2 = 0x0, _have_fur_flags_extn = 0x1,
+    _have_fur_attribute_id = 0x1, _have_fur_li_type = 0x1, _have_fur_traffic_index = 0x1, _have_fur_precedence = 0x0, _have_fur_qppb = 0x1,
+    _have_fur_lbl_nbrs = 0x1, _have_fur_mpls_upd_flags = 0x1, _have_fur_ip_tableid = 0x0, _have_fur_forward_class = 0x1, _have_fur_priority = 0x1,
+    _have_fur_flow_tag = 0x0, _have_fur_route_type = 0x0, _have_fur_context_local_label = 0x0, _have_fur_prefix_encap_id = 0x0, _have_fur_mpls_te_ifh = 0x0,
+    _have_fur_mpls_p2mp_type = 0x0, _have_fur_mpls_p2mp_tableid = 0x0, _have_fur_mpls_p2mp_flags = 0x0, _have_fur_mpls_p2mp_lsm_id = 0x0,
+    _have_fur_mpls_p2mp_v4_tableid = 0x0, _have_fur_mpls_p2mp_v6_tableid = 0x0, _have_fur_mpls_p2mp_tun_id = 0x0, _have_fur_mpls_p2mp_rpf_id = 0x0,
+    _have_fur_mpls_p2mp_lspvif_ifh = 0x0, _have_fur_mpls_p2mp_plat_data = 0x1, _have_fur_mpls_p2mp_vpls_bridge_id = 0x1, _have_fur_mpls_p2mp_vpls_shg_id = 0x0,
+    _have_fur_mpls_p2mp_vpls_ifh = 0x0, _have_fur_mpls_p2mp_vpls_xc_id = 0x0, _have_fur_mpls_p2mp_encap_id = 0x0, _have_fur_mpls_p2mp_disp_ifh = 0x0},
+  cidl_paths = {{_fup_ifh = 0x41700d, _fup_next_hop_tableid = 0x1500, _fup_next_hop = {_prefix_length = 0x51ae000, _protocol = 0x21d, _ipv4_address = 0x6803003,
+        _ipv6_address = {data = 0x80808028, size = 0xc0024801}, _mpls_label = 0x1c00301, _have_prefix_length = 0x1, _have_protocol = 0x1,
+        _have_ipv4_address = 0x0, _have_ipv6_address = 0x0, _have_mpls_label = 0x0}, _fup_weight = 0x0, _fup_nhid = 0x0, _fup_flags = 0x0, _fup_out_label = 0x0,
+      _fup_out_label_stack = 0x0, _fup_out_label_stack_count = 0x0, _fup_out_label_and_li_flags = 0x0, _fup_out_label_flags = 0x0,
+      _fup_out_label_flags_count = 0x0, _fup_srv6_end_oper = 0x0, _fup_srv6_transit_oper = 0x0, _fup_srv6_sid_stack = 0x0, _fup_srv6_sid_stack_count = 0x0,
+      _fup_backup_path_index = 0x0, _fup_recursion_len = 0x0, _fup_p_node_addr = {_prefix_length = 0x0, _protocol = 0x0, _ipv4_address = 0x0, _ipv6_address = {
+          data = 0x0, size = 0x0}, _mpls_label = 0x0, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0, _have_ipv6_address = 0x0,
+        _have_mpls_label = 0x0}, _fup_q_node_addr = {_prefix_length = 0x0, _protocol = 0x0, _ipv4_address = 0x0, _ipv6_address = {data = 0x0, size = 0x0},
+        _mpls_label = 0x0, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0, _have_ipv6_address = 0x0, _have_mpls_label = 0x0},
+      _fup_subs_ifh = 0x0, _fup_l2_subs_xc_id = 0x0, _fup_encap_id = 0x0, _fup_parent_ifh = 0x0, _fup_intf_list = 0x0, _fup_tunnel_id = 0x0,
+      _fup_tunnel_class = 0x0, _fup_via_label = 0x0, _fup_li_app_id = 0x0, _fup_li_tun_ifh = 0x0, _fup_li_tun_weight = 0x0, _fup_li_merge_point_label = 0x0,
+      _fup_li_backup_ifh = 0x0, _fup_li_parent_ifh = 0x0, _fup_li_backup_next_hop = {_prefix_length = 0x0, _protocol = 0x0, _ipv4_address = 0x0,
+        _ipv6_address = {data = 0x0, size = 0x0}, _mpls_label = 0x0, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0,
+        _have_ipv6_address = 0x0, _have_mpls_label = 0x0}, _fup_li_tun_lcl_label = 0x0, _fup_li_backup_local_label = 0x0, _fup_li_pw_bridge_id = 0x0,
+      _fup_li_pw_shg_id = 0x0, _fup_li_pw_xc_id = 0x0, _fup_li_flags_extn = 0x0, _fup_li_subs_tableid = 0x0, _fup_li_pwhe_ifh = 0x0, _fup_li_pwhe_cw = 0x0,
+      _fup_li_pwhe_vc_type = 0x0, _fup_li_mcast_id = 0x0, _fup_li_p2mp_locale = {_fupl_intf_fapid = 0x0, _fupl_backup_intf_fapid = 0x0,
+        _fupl_intf_member_ifh = 0x0, _fupl_backup_intf_member_ifh = 0x0, _have_fupl_intf_fapid = 0x0, _have_fupl_backup_intf_fapid = 0x0,
+        _have_fupl_intf_member_ifh = 0x0, _have_fupl_backup_intf_member_ifh = 0x0}, _fup_li_p2mp_tos_locale = 0x0, _fup_li_p2mp_tos_locale_count = 0x0,
+      _fup_nnh = 0x0, _fup_nnh_count = 0x0, _have_fup_ifh = 0x0, _have_fup_next_hop_tableid = 0x0, _have_fup_next_hop = 0x0, _have_fup_weight = 0x0,
+      _have_fup_nhid = 0x0, _have_fup_flags = 0x0, _have_fup_out_label = 0x0, _have_fup_out_label_stack = 0x0, _have_fup_out_label_and_li_flags = 0x0,
+      _have_fup_out_label_flags = 0x0, _have_fup_srv6_end_oper = 0x0, _have_fup_srv6_transit_oper = 0x0, _have_fup_srv6_sid_stack = 0x0,
+      _have_fup_backup_path_index = 0x0, _have_fup_recursion_len = 0x0, _have_fup_p_node_addr = 0x0, _have_fup_q_node_addr = 0x0, _have_fup_subs_ifh = 0x0,
+      _have_fup_l2_subs_xc_id = 0x0, _have_fup_encap_id = 0x0, _have_fup_parent_ifh = 0x0, _have_fup_intf_list = 0x0, _have_fup_tunnel_id = 0x0,
+      _have_fup_tunnel_class = 0x0, _have_fup_via_label = 0x0, _have_fup_li_app_id = 0x0, _have_fup_li_tun_ifh = 0x0, _have_fup_li_tun_weight = 0x0,
+      _have_fup_li_merge_point_label = 0x0, _have_fup_li_backup_ifh = 0x0, _have_fup_li_parent_ifh = 0x0, _have_fup_li_backup_next_hop = 0x0,
+      _have_fup_li_tun_lcl_label = 0x0, _have_fup_li_backup_local_label = 0x0, _have_fup_li_pw_bridge_id = 0x0, _have_fup_li_pw_shg_id = 0x0,
+---Type <return> to continue, or q <return> to quit---q
+_have_fup_li_pw_xc_iQuit
+(gdb) p /x *((fib_upd_msg_decode_route_t *)fecp_pfx_plat)
+$15 = {cidl_route = {_fur_prefix = {_prefix_length = 0x1bbc210, _protocol = 0x2202a118, _ipv4_address = 0x40b00d1b, _ipv6_address = {data = 0x150000,
+        size = 0x1ae00000}, _mpls_label = 0x31d05, _have_prefix_length = 0x0, _have_protocol = 0x0, _have_ipv4_address = 0x0, _have_ipv6_address = 0x0,
+      _have_mpls_label = 0x0}, _fur_local_label = 0x80843808, _fur_version = 0x700d1a2201018040, _fur_paths = 0x15000041, _fur_paths_count = 0xe0000000,
+    _fur_flags = 0x21d051a, _fur_flags2 = 0x30030000, _fur_flags_extn = 0xc2380680, _fur_attribute_id = 0x44001bb, _fur_li_type = 0x80808028,
+    _fur_traffic_index = 0xc0024801, _fur_precedence = 0x301, _fur_qppb = 0xce000, _fur_lbl_nbrs = 0x80000, _fur_lbl_nbrs_count = 0x0,
+    _fur_mpls_upd_flags = 0xa8c00000, _fur_ip_tableid = 0x200, _fur_forward_class = 0x0, _fur_priority = 0x0, _fur_flow_tag = 0x200000, _fur_route_type = 0x0,
+    _fur_context_local_label = 0x0, _fur_prefix_encap_id = 0x1000005dc10000, _fur_mpls_te_ifh = 0x1240000, _fur_mpls_p2mp_type = 0x0,
+    _fur_mpls_p2mp_tableid = 0x0, _fur_mpls_p2mp_flags = 0x0, _fur_mpls_p2mp_lsm_id = 0x0, _fur_mpls_p2mp_v4_tableid = 0x0,
+    _fur_mpls_p2mp_v6_tableid = 0x440000, _fur_mpls_p2mp_tun_id = 0x440000, _fur_mpls_p2mp_rpf_id = 0x0, _fur_mpls_p2mp_lspvif_ifh = 0x0,
+    _fur_mpls_p2mp_plat_data = {data = 0x0, size = 0xc1100000}, _fur_mpls_p2mp_vpls_bridge_id = 0xa41801bb, _fur_mpls_p2mp_vpls_shg_id = 0xd1b2202,
+    _fur_mpls_p2mp_vpls_ifh = 0x40b0, _fur_mpls_p2mp_vpls_xc_id = 0x15, _fur_mpls_p2mp_encap_id = 0x1d051ae0, _fur_mpls_p2mp_disp_ifh = 0x1000003,
+    _have_fur_prefix = 0x0, _have_fur_local_label = 0x0, _have_fur_version = 0x0, _have_fur_paths = 0x0, _have_fur_flags = 0x1, _have_fur_flags2 = 0x1,
+    _have_fur_flags_extn = 0x0, _have_fur_attribute_id = 0x0, _have_fur_li_type = 0x0, _have_fur_traffic_index = 0x0, _have_fur_precedence = 0x0,
+    _have_fur_qppb = 0x0, _have_fur_lbl_nbrs = 0x0, _have_fur_mpls_upd_flags = 0x0, _have_fur_ip_tableid = 0x0, _have_fur_forward_class = 0x1,
+    _have_fur_priority = 0x0, _have_fur_flow_tag = 0x0, _have_fur_route_type = 0x0, _have_fur_context_local_label = 0x1, _have_fur_prefix_encap_id = 0x0,
+    _have_fur_mpls_te_ifh = 0x0, _have_fur_mpls_p2mp_type = 0x0, _have_fur_mpls_p2mp_tableid = 0x0, _have_fur_mpls_p2mp_flags = 0x0,
+    _have_fur_mpls_p2mp_lsm_id = 0x0, _have_fur_mpls_p2mp_v4_tableid = 0x0, _have_fur_mpls_p2mp_v6_tableid = 0x1, _have_fur_mpls_p2mp_tun_id = 0x1,
+    _have_fur_mpls_p2mp_rpf_id = 0x1, _have_fur_mpls_p2mp_lspvif_ifh = 0x0, _have_fur_mpls_p2mp_plat_data = 0x0, _have_fur_mpls_p2mp_vpls_bridge_id = 0x0,
+    _have_fur_mpls_p2mp_vpls_shg_id = 0x0, _have_fur_mpls_p2mp_vpls_ifh = 0x0, _have_fur_mpls_p2mp_vpls_xc_id = 0x0, _have_fur_mpls_p2mp_encap_id = 0x0,
+    _have_fur_mpls_p2mp_disp_ifh = 0x0}, ctx_storage = {ft = 0x14220101, user_ctx = 0x41700d, fut_eod_version = 0x51ae00000001500, fud_table = 0x21d,
+    thrd_ctxt = 0x6803003, fud_global = 0x80808028, fut_upd_flags = 0x1, priority = 0x1c00301, fut_num_entries = 0x3, fud_tableid = 0x0, fud_proto = 0x0,
+    fut_route_source = 0x0, force_process_as_delete = 0x0, flush_opaques = 0x0, low_prio_upds = 0x0, update_stats = {fib_rhs_update = 0x0, fib_rhs_delete = 0x0,
+      fib_rhs_del_resolved = 0x0, fib_rhs_spl_opq = 0x0, fib_rhs_ltrace_filter = 0x0}}, c = {fudr_dynamic_gpb_buf = 0x0, fudr_ctx = {fudr_c_nhinfo = 0x0,
+      fudr_c_glean_nhinfo = 0x0, fudr_c_update_rc = 0x0}, update_ms_ts = 0x0, furd_path_count = 0x0, furd_lbl_nbr_count = 0x0, fudt_ctx = 0x0, fudr_table = 0x0,
+    fudr_tableid = 0x0, cidl_decoded = 0x0, any_path_is_labeled = 0x0, any_path_is_unlabeled = 0x0, at_least_one_path_has_multiple_labels = 0x0,
+    any_path_is_subscriber = 0x0, route_from_stale_rt_src = 0x0, route_delete_is_purging_stale_route = 0x0, any_path_has_nhid = 0x0, any_path_has_srv6 = 0x0,
+    route_is_srv6_local_sid = 0x0}, o = {cidl_msg = 0x0, cidl_msg_size = 0x0, fur_mpls_p2mp_plat_data = {0x0 <repeats 256 times>}, furd_paths = {{
+        cidl_path = 0x0, out_labels = 0x0, fudp_p2mp_locale = {cidl_p2mp_locale = 0x0}, fudp_p2mp_tos_locale = {{cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {
+            cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}, {cidl_p2mp_locale = 0x0}}, fudp_p2mp_tos_locale_count = 0x0, fudp_next_hop_tableid = 0x0,
+        fupd_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_p_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0},
+        fupd_q_node_addr = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, fupd_li_backup_next_hop = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fupd_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fupd_p_node_addr_buf = {buf = {0x0 <repeats 16 times>}},
+        _fupd_q_node_addr_buf = {buf = {0x0 <repeats 16 times>}}, _fupd_li_backup_next_hop_buf = {buf = {0x0 <repeats 20 times>}}, _fudp_output_label = 0x0,
+        fudp_nhid = 0x0, out_label_flags = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, fudp_path_idx = 0x0, out_label_count = 0x0, fupd_nnh = 0x0,
+        fupd_nnh_count = 0x0, resolve_to_drop = 0x0, srv6_sid_cnt = 0x0, fupd_srv6_sid = {__u6_addr = {__u6_addr8 = {0x0 <repeats 16 times>}, __u6_addr16 = {
+              0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, __u6_addr32 = {0x0, 0x0, 0x0, 0x0}, __u6_addr64 = {0x0, 0x0}}},
+        fupd_srv6_sid_stack = 0x0} <repeats 128 times>}, furd_lbl_nbrs = {{cidl_lbl_nbr = 0x0, fulnd_nbr_addr = {fpfx_proto = 0x0, fpfx_len = 0x0,
+          fpfx_prefix = 0x0}, _fulnd_nbr_addr_buf = {buf = {0x0 <repeats 20 times>}}} <repeats 32 times>}, fudr_route_source = 0x0, fudr_label_source = 0x0,
+    fudr_prefix = {fpfx_proto = 0x0, fpfx_len = 0x0, fpfx_prefix = 0x0}, _fudr_prefix_buf = {buf = {0x0 <repeats 20 times>}}, fudr_upd_flags = 0x0,
+    fudr_local_label = 0x0, fudr_context_local_label = 0x0, low_prio_upds_valid = 0x0}}
+(gdb) p fecp_pfx_plat
+$16 = (void *) 0x9d3c7b8
+(gdb) p *((char *)(fecp_pfx_plat) + 100)
+$17 = 0 '\000'
+(gdb) p/b fecp_pfx_plat
+Size letters are meaningless in "print" command.
+(gdb) p /b fecp_pfx_plat
+Size letters are meaningless in "print" command.
+(gdb) p *((char *)(fecp_pfx_plat) + 100)
+$18 = 0 '\000'
+(gdb) p *((char *)(fecp_pfx_plat) + 101)
+$19 = 0 '\000'
+(gdb) x/100bx fecp_pfx_plat
+0x9d3c7b8:      0x10    0xc2    0xbb    0x01    0x18    0xa1    0x02    0x22
+0x9d3c7c0:      0x1b    0x0d    0xb0    0x40    0x00    0x00    0x15    0x00
+0x9d3c7c8:      0x00    0x00    0xe0    0x1a    0x05    0x1d    0x03    0x00
+0x9d3c7d0:      0x00    0x01    0x30    0x80    0x08    0x38    0x84    0x80
+0x9d3c7d8:      0x40    0x80    0x01    0x01    0x22    0x1a    0x0d    0x70
+0x9d3c7e0:      0x41    0x00    0x00    0x15    0x00    0x00    0x00    0xe0
+0x9d3c7e8:      0x1a    0x05    0x1d    0x02    0x00    0x00    0x03    0x30
+0x9d3c7f0:      0x80    0x06    0x38    0xc2    0xbb    0x01    0x40    0x04
+0x9d3c7f8:      0x28    0x80    0x80    0x80    0x01    0x48    0x02    0xc0
+0x9d3c800:      0x01    0x03    0x00    0x00    0x00    0xe0    0x0c    0x00
+0x9d3c808:      0x00    0x00    0x08    0x00    0x00    0x00    0x00    0x00
+0x9d3c810:      0x00    0x00    0xc0    0xa8    0x00    0x02    0x00    0x00
+0x9d3c818:      0x00    0x00    0x00    0x00
+(gdb)
+
