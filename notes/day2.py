@@ -29,8 +29,18 @@ Type "help", "copyright", "credits" or "license()" for more information.
 >>> # List comprehension:
 >>> [i**2 for i in range(n)]
 [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
->>> # [ <expr> for <var> in  <iterable> ]
+>>> # [ <expr> for <var> in  <iterable> if condition ]
+>>> # [expression for element in iterable if condition]
 >>> sum([i**2 for i in range(n)])
+>>> 
+l2
+[3, 4, 5, 6, 7, 8, 5, 6, 18, 10]
+
+>>> [(l2[i], l2[i + 1]) for i in range(len(l2) - 1) if l2[i] > l2[i + 1]]
+[(8, 5), (18, 10)]
+>>> len(l2)
+10
+
 285
 >>> # Sum of squares of numbers from 0 to n-1
 >>> 
